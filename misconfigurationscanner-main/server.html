@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/43e55fa588.js" crossorigin="anonymous"></script>
+    <title>Server</title>
+    <style>
+        body {
+            background-color: rgb(27, 27, 27);
+            overflow-x: hidden;
+        }
+
+        .text {
+            color: white;
+        }
+
+        .top {
+            display: flex;
+            color: white;
+            background-color: black;
+            align-items: center;
+            gap: 10px;
+            padding-left: 25px;
+            margin-left: -10px;
+            margin-top: -10px;
+            margin-right: -10px;
+        }
+
+        .linkgroups {
+            background-color: rgb(46, 46, 46);
+            border-radius: 10px;
+            margin-left: 500px;
+            padding-left: 100px;
+            padding-right: 50px;
+            gap: 60px;
+            display: flex;
+
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            width: 300px;
+            height: 15px;
+            border-radius: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            margin-left: 50px;
+            margin-top: 8px;
+
+        }
+
+        .search-bar input {
+            border: none;
+            background-color: transparent;
+            flex-grow: 1;
+        }
+
+        .search-bar i {
+            margin-right: 10px;
+        }
+
+        #json-data {
+            display: grid;
+            color: white;
+            justify-content: center;
+            /* Zentriert den Inhalt horizontal */
+            align-items: center;
+            /* Zentriert den Inhalt vertikal */
+            height: 100vh;
+            /* Nutzt die volle Höhe des Viewports */
+            font-size: 28px;
+            margin-left: 150px;
+            margin-top: 30px;
+        }
+
+        .square {
+            background-color: rgb(0, 0, 0);
+            margin-left: 0px;
+            width: 500px;
+            padding-right: 400px;
+            border-radius: 40px;
+            height: auto;
+
+        }
+
+        input {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top">
+        <i class="fa-solid fa-shield-halved fa-bounce fa-2xl" style="color: #ffffff;"></i>
+        <a href="index.html" style="text-decoration: none; color: #ffffff;">
+            <h1>Server Security-Check</h1>
+        </a>
+        <div class="linkgroups">
+            <a href="server.html" style="text-decoration: none; color: #ffffff;">
+                <p>Server</p>
+            </a>
+            <a href="team.html" style="text-decoration: none; color: #ffffff;">
+                <p>Team</p>
+            </a>
+            <a href="projektidee.html" style="text-decoration: none; color: #ffffff;">
+                <p>Projektidee</p>
+            </a>
+            <div class="search-bar">
+                <i class="fa fa-search" style="color: black;"></i>
+                <input type="text" placeholder="Enter IP address">
+            </div>
+        </div>
+    </div>
+    <div id="json-data" class="square" style="
+    height: auto" ;>
+
+    </div>
+
+
+    <script>
+        // Die URL zur JSON-Datei im gleichen Verzeichnis wie Ihre HTML-Datei
+        var jsonFileURL = 'ips.json';
+
+        // Das <div>-Element, in dem Sie die JSON-Inhalte anzeigen möchten
+        var jsonDataDiv = document.getElementById('json-data');
+
+        // Eine AJAX-Anfrage, um die JSON-Datei zu laden
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', jsonFileURL, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // JSON-Inhalte aus der Antwort parsen
+                var jsonData = JSON.parse(xhr.responseText);
+
+                // Extrahieren Sie die IP-Adressen aus dem JSON und trennen Sie sie mit Zeilenumbrüchen
+                var ips = jsonData.ips.join('\n');
+
+                // Erstellen Sie ein <pre>-Element, um den formatierten Text anzuzeigen
+                var pre = document.createElement('pre');
+                pre.textContent = ips;
+                jsonDataDiv.appendChild(pre);
+            }
+        };
+        xhr.send();
+    </script>
+</body>
+
+</html>

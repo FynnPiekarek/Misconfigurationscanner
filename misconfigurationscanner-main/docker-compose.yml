@@ -1,0 +1,44 @@
+version: '3.8'
+services: 
+  api:
+    image: dockermike1809/umb-api
+    ports:
+      - 8000:8000
+    environment:
+      - PASSWORD=$PASSWORD
+      - SMTP_SERVER=$SMTP_SERVER
+      - SMTP_PORT=$SMTP_PORT
+      - SENDER_EMAIL=$SENDER_EMAIL
+      - RECEIVER_EMAIL=$RECEIVER_EMAIL
+      - API_USERNAME=$API_USERNAME
+      - API_PASSWORD=$API_PASSWORD
+    networks:
+      - backend
+
+  frontend:
+    image: dockermike1809/umb-frontend
+    ports:
+      - 8080:80
+    networks:
+      - backend
+
+  caddy:
+     image: caddy:alpine
+     ports:
+       - 80:80
+       - 443:443
+     volumes:
+       - caddy_data:/data
+       -  ./Caddyfile:/etc/caddy/Caddyfile
+     depends_on:
+       - api
+       - frontend
+     networks:
+       - backend
+       - frontend
+
+networks:
+  backend:
+  frontend:
+volumes:
+  caddy_data:

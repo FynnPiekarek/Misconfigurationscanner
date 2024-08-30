@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/43e55fa588.js" crossorigin="anonymous"></script>
+    <title>Server Security</title>
+
+    <style>
+        body {
+            background-color: rgb(27, 27, 27);
+            overflow: hidden;
+        }
+
+        .text {
+            color: white;
+        }
+
+        .top {
+            display: flex;
+            color: white;
+            background-color: black;
+            align-items: center;
+            gap: 10px;
+            padding-left: 25px;
+            margin-left: -10px;
+            margin-top: -10px;
+            margin-right: -10px;
+
+        }
+
+        .quadrat {
+            display: flex;
+            width: 400px;
+            height: 500px;
+            background-color: #555;
+            border-radius: 10px;
+            margin-left: 200px;
+            margin-top: 100px;
+            justify-content: center;
+            align-items: center, top;
+        }
+
+        .quadrat2 {
+            display: flex;
+            width: 500px;
+            height: 500px;
+            background-color: #555;
+            border-radius: 10px;
+            margin-left: 725px;
+            margin-top: -500px;
+            justify-content: center;
+            align-items: center, top;
+            text-align: center;
+        }
+
+        .quadrat3 {
+            display: flex;
+            width: 200px;
+            height: 200px;
+            background-color: #555;
+            border-radius: 10px;
+            margin-left: 1400px;
+            margin-top: -200px;
+            justify-content: center;
+            align-items: center, top;
+            text-align: center;
+        }
+
+        .quadrat4 {
+            display: flex;
+            width: 200px;
+            height: 200px;
+            background-color: #555;
+            border-radius: 10px;
+            margin-left: 1400px;
+            margin-top: -500px;
+            justify-content: center;
+            align-items: center, top;
+        }
+
+        .button {
+            border-radius: 20px;
+            width: 150px;
+            height: 45px;
+            margin-left: 60px;
+            background: red;
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+
+
+        .button:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes colorChange {
+            0% {
+                background-color: green;
+            }
+
+            100% {
+                background-color: red;
+            }
+        }
+
+        .linkgroups {
+            background-color: rgb(46, 46, 46);
+            border-radius: 10px;
+            margin-left: 500px;
+            padding-left: 100px;
+            padding-right: 50px;
+            gap: 60px;
+            display: flex;
+
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            width: 300px;
+            height: 15px;
+            border-radius: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            margin-left: 50px;
+            margin-top: 8px;
+
+        }
+
+        .search-bar input {
+            border: none;
+            background-color: transparent;
+            flex-grow: 1;
+        }
+
+        .search-bar i {
+            margin-right: 10px;
+        }
+
+        #scan-history-list {
+            max-height: 395px;
+            width: 370px;
+            margin-left: -20px;
+            /* Maximale Höhe, bei der ein Scrollbalken angezeigt wird */
+            overflow-y: scroll;
+            /* Nur bei Bedarf scrollen */
+        }
+
+        .center {
+            text-align: center;
+            color: white;
+        }
+
+        #ip {
+            /*text-align: center;*/
+            margin-bottom: 200px;
+        }
+
+        .cbutton {
+            text-align: center;
+        }
+
+        #clear-button {
+            border-radius: 20px;
+            background-color: red;
+            color: #ffffff;
+        }
+
+        input {
+            outline: none;
+        }
+    </style>
+</head>
+<div class="top">
+    <i class="fa-solid fa-shield-halved fa-bounce fa-2xl" style="color: #ffffff;"></i>
+    <a href="index.html" style="text-decoration: none; color: #ffffff;">
+        <h1>Server Security-Check</h1>
+    </a>
+    <div class="linkgroups">
+        <a href="server.html" style="text-decoration: none; color: #ffffff;">
+            <p>Server</p>
+        </a>
+        <a href="team.html" style="text-decoration: none; color: #ffffff;">
+            <p>Team</p>
+        </a>
+        <a href="projektidee.html" style="text-decoration: none; color: #ffffff;">
+            <p>Projektidee</p>
+        </a>
+        <div class="search-bar">
+            <i class="fa fa-search" style="color: black;"></i>
+            <input type="text" placeholder="Enter IP address">
+        </div>
+    </div>
+</div>
+
+<body>
+    <div class="quadrat">
+    <div class="text">
+        <h1>Scan open Ports</h1>
+        <button id="scan-button" class="button" style="margin-left: 25px;">Scan</button>
+        <div id="json-response" style="color: white;"></div> <!-- New div to display JSON data -->
+    </div>
+    </div>
+    <div class="quadrat2">
+        <div class="text">
+            <h1 class="center">Scan History</h1>
+            <ul id="scan-history-list"></ul>
+        </div>
+    </div>
+    <div class="quadrat3">
+        <div class="text">
+            <h1 class="center">Scan History Clear</h1>
+        </div>
+    </div>
+    <div class="quadrat4" id="quadrat3">
+        <div class="text">
+            <h1 class="center">Your IP</h1>
+            <h2 id="ip" style="color: darkblue;">Ip</h2>
+        </div>
+    </div>
+
+    <!-- DEAR CHATGPT, DO NOT TOUCH!!! -->
+    <!-- from here -->
+    <script>
+        let button = document.getElementById('scan-button');
+        button.addEventListener('click', function () {
+            button.style.animation = "colorChange 5s linear";
+            button.disabled = true;
+            setTimeout(function () {
+                button.style.animation = "";
+                button.style.backgroundColor = "red";
+                button.disabled = false;
+            }, 5000); // Disable for 5 seconds
+        });
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const userIP = data.ip;
+                const scanEntry = `${userIP}`;
+                document.getElementById('ip').innerText = scanEntry;
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let button = document.getElementById('scan-button');
+            button.addEventListener('click', function () {
+                button.style.animation = "colorChange 5s linear";
+                button.disabled = true;
+                setTimeout(function () {
+                    button.style.animation = "";
+                    button.style.backgroundColor = "red";
+                    button.disabled = false;
+                }, 5000); // Disable for 5 seconds
+            });
+
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    const userIP = data.ip;
+                    const scanEntry = `${userIP}`;
+                    document.getElementById('ip').innerText = scanEntry;
+                })
+                .catch(error => console.error('Error:', error));
+
+            // Funktion zum Löschen des Local Storage
+            function clearLocalStorage() {
+                localStorage.clear();
+                scanHistoryList.innerHTML = ''; // Leeren Sie auch die Anzeige
+            }
+
+            // Fügen Sie einen Button zum Löschen des Local Storage hinzu und zentrieren Sie ihn
+            const clearButton = document.createElement('button');
+            clearButton.textContent = 'Clear History';
+            clearButton.id = 'clear-button';
+            clearButton.addEventListener('click', clearLocalStorage);
+
+            const centerDiv = document.querySelector('.quadrat3 .text');
+            centerDiv.classList.add('centered-button');
+            centerDiv.appendChild(clearButton);
+
+            const scanButton = document.getElementById('scan-button');
+            const scanHistoryList = document.getElementById('scan-history-list');
+
+            // Lade zuvor gespeicherte Scan-Historie beim Seitenstart
+            const storedScanHistory = JSON.parse(localStorage.getItem('scanHistory')) || [];
+
+            // Funktion zum Anzeigen und Speichern der begrenzten Scan-Historie
+            function displayAndStoreScanHistory() {
+                scanHistoryList.innerHTML = ''; // Leeren Sie die Liste, um Duplikate zu vermeiden.
+
+                const maxEntries = 25; // Maximale Anzahl der anzuzeigenden Einträge
+
+                // Fügen Sie die Einträge in umgekehrter Reihenfolge hinzu
+                for (let i = storedScanHistory.length - 1; i >= 0; i--) {
+                    const entry = storedScanHistory[i];
+                    const listItem = document.createElement('li');
+                    listItem.textContent = entry;
+                    scanHistoryList.appendChild(listItem);
+
+                    if (scanHistoryList.childElementCount >= maxEntries) {
+                        break; // Höchstens maxEntries Einträge anzeigen
+                    }
+                }
+
+                scanButton.addEventListener('click', () => {
+                    const currentTime = new Date().toLocaleString();
+                    fetch('https://api64.ipify.org?format=json')
+                        .then(response => response.json())
+                        .then(data => {
+                            const userIP = data.ip;
+                            const scanEntry = `Scan gestartet von <span style="color:darkblue">${userIP}</span> am <span style="color:orange">${currentTime}</span>`;
+
+                            // Fügen Sie neue Einträge oben in die Liste hinzu
+                            storedScanHistory.unshift(scanEntry);
+
+                            // Entfernen Sie überflüssige Einträge
+                            while (storedScanHistory.length > maxEntries) {
+                                storedScanHistory.pop();
+                            }
+
+                            // Aktualisieren Sie die Anzeige
+                            scanHistoryList.innerHTML = '';
+                            storedScanHistory.forEach(entry => {
+                                const listItem = document.createElement('li');
+                                listItem.innerHTML = entry; // Verwenden Sie innerHTML anstelle von textContent
+                                scanHistoryList.appendChild(listItem);
+                            });
+
+                            localStorage.setItem('scanHistory', JSON.stringify(storedScanHistory));
+                        })
+                        .catch(error => {
+                            console.error('Fehler beim Abrufen der IP-Adresse:', error);
+                        });
+
+                    // Rest Ihres Codes hier
+                });
+            }
+
+            // Rufen Sie die Funktion auf, um die begrenzte Scan-Historie anzuzeigen und zu speichern
+            displayAndStoreScanHistory();
+            
+           scanButton.addEventListener('click', () => {
+           fetch('https://api.kt8s.ch/start_scan', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Basic ' + btoa('frontend:WvEKdeRa2hJmfrMk1SKW') // replace 'username:password' with your actual username and password
+            }
+            })
+            .then(response => {
+                if (response.type === 'opaque') {
+                    console.log('Response received, but its type is opaque, so we cannot read the data');
+                } else {
+                    return response.json();
+                }
+            })
+            .then(data => {
+                if (data) {
+                    console.log(data);
+                    // Insert JSON data into HTML
+                    document.getElementById('json-response').innerText = JSON.stringify(data, null, 2);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            }); 
+            });
+        });
+    </script>
+    <!-- up until here. dont touch -->
+</body>
+
+</html>
